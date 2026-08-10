@@ -1,0 +1,8 @@
+[Bb]in/
+[Oo]bj/
+[Dd]ist/
+.vs/
+*.user
+*.suo
+*.nupkg
+
