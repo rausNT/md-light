@@ -6,7 +6,7 @@
     <AssemblyName>MdLight</AssemblyName>
     <RootNamespace>MdLight</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>rausNT</Authors>
     <Description>Lightweight Markdown viewer for Windows.</Description>
     <Product>MdLight</Product>

@@ -17,12 +17,19 @@ MdLight открывает Markdown-файлы без браузера, Electron
 
 ## Скачать
 
-Готовый `MdLight.zip` формируется на странице
+Готовые `MdLight-Setup.exe` и `MdLight-portable.zip` формируются на странице
 [GitHub Actions](https://github.com/rausNT/md-light/actions) для каждого push.
 Откройте успешную сборку ветки и скачайте артефакт **MdLight-windows**.
 
-После распаковки запустите `MdLight.exe`. Чтобы открывать `.md` двойным кликом,
-выберите **Открыть с помощью → Выбрать другое приложение → MdLight.exe**.
+Запустите `MdLight-Setup.exe`. На странице дополнительных задач можно оставить
+включённым пункт **«Ассоциировать файлы .md и .markdown с MdLight»**. Программа
+будет зарегистрирована в Windows как обработчик Markdown; если для расширения
+уже защищён системный выбор, установщик откроет страницу «Приложения по
+умолчанию», где достаточно подтвердить MdLight.
+
+`MdLight-portable.zip` — версия без установки. После распаковки запустите
+`MdLight.exe`; ассоциацию для portable-версии можно задать через
+**Открыть с помощью → Выбрать другое приложение**.
 
 ## Сборка
 
@@ -34,6 +41,12 @@ dotnet build MdLight.sln -c Release --no-restore
 ```
 
 Готовое приложение находится в `src/MdLight/bin/Release/net48/`.
+Установщик собирается бесплатным [Inno Setup](https://jrsoftware.org/isinfo.php):
+
+```powershell
+$iscc = "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
+& $iscc installer\MdLight.iss
+```
 
 ## Поддерживаемый Markdown
 

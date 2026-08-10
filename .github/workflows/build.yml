@@ -29,16 +29,42 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path dist -Force
-          Copy-Item src/MdLight/bin/Release/net48/MdLight.exe dist/
-          if (Test-Path src/MdLight/bin/Release/net48/MdLight.exe.config) {
-            Copy-Item src/MdLight/bin/Release/net48/MdLight.exe.config dist/
-          }
-          Copy-Item README.md, LICENSE, sample.md dist/
-          Compress-Archive -Path dist/* -DestinationPath MdLight.zip
+          New-Item -ItemType Directory -Path portable -Force
+          Copy-Item src/MdLight/bin/Release/net48/MdLight.exe portable/
+          Copy-Item README.md, LICENSE, sample.md portable/
+          Compress-Archive -Path portable/* -DestinationPath dist/MdLight-portable.zip
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $candidates = @(
+            "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe",
+            "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+            "$env:ProgramFiles\Inno Setup 6\ISCC.exe"
+          )
+          $iscc = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          if (-not $iscc) { throw "ISCC.exe was not found" }
+          & $iscc installer\MdLight.iss
+
+      - name: Installer smoke test
+        shell: pwsh
+        run: |
+          $setup = Start-Process -FilePath dist/MdLight-Setup.exe -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/TASKS="associate_md"' -Wait -PassThru
+          if ($setup.ExitCode -ne 0) { throw "Installer exited with code $($setup.ExitCode)" }
+          $smoke = Start-Process -FilePath "$env:LOCALAPPDATA\Programs\MdLight\MdLight.exe" -ArgumentList '--smoke-test' -Wait -PassThru
+          if ($smoke.ExitCode -ne 0) { throw "Installed app smoke test failed" }
+          $key = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Software\Classes\.md')
+          $association = $key.GetValue('')
+          $key.Dispose()
+          if ($association -ne 'MdLight.Markdown') { throw "File association was not registered" }
+          $uninstall = Start-Process -FilePath "$env:LOCALAPPDATA\Programs\MdLight\unins000.exe" -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART' -Wait -PassThru
+          if ($uninstall.ExitCode -ne 0) { throw "Uninstaller exited with code $($uninstall.ExitCode)" }
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: MdLight-windows
-          path: MdLight.zip
+          path: |
+            dist/MdLight-Setup.exe
+            dist/MdLight-portable.zip
           if-no-files-found: error
