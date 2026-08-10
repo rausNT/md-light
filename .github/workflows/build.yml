@@ -1,0 +1,44 @@
+name: Build Windows app
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore MdLight.sln
+
+      - name: Build
+        run: dotnet build MdLight.sln -c Release --no-restore
+
+      - name: Smoke test
+        run: src\MdLight\bin\Release\net48\MdLight.exe --smoke-test
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path dist -Force
+          Copy-Item src/MdLight/bin/Release/net48/MdLight.exe dist/
+          if (Test-Path src/MdLight/bin/Release/net48/MdLight.exe.config) {
+            Copy-Item src/MdLight/bin/Release/net48/MdLight.exe.config dist/
+          }
+          Copy-Item README.md, LICENSE, sample.md dist/
+          Compress-Archive -Path dist/* -DestinationPath MdLight.zip
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: MdLight-windows
+          path: MdLight.zip
+          if-no-files-found: error
