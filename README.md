@@ -1,5 +1,8 @@
 # MdLight
 
+[![Build Windows app](https://github.com/rausNT/md-light/actions/workflows/build.yml/badge.svg)](https://github.com/rausNT/md-light/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 **Лёгкий бесплатный просмотрщик Markdown (`.md`) для Windows 10 и 11.**
 
 MdLight открывает Markdown-файлы без браузера, Electron, WebView и платных
@@ -17,9 +20,9 @@ MdLight открывает Markdown-файлы без браузера, Electron
 
 ## Скачать
 
-Готовые `MdLight-Setup.exe` и `MdLight-portable.zip` формируются на странице
-[GitHub Actions](https://github.com/rausNT/md-light/actions) для каждого push.
-Откройте успешную сборку ветки и скачайте артефакт **MdLight-windows**.
+Готовые `MdLight-Setup.exe` и `MdLight-portable.zip` публикуются в разделе
+[Releases](https://github.com/rausNT/md-light/releases). Проверочные сборки для
+каждого изменения доступны в [GitHub Actions](https://github.com/rausNT/md-light/actions).
 
 Запустите `MdLight-Setup.exe`. На странице дополнительных задач можно оставить
 включённым пункт **«Ассоциировать файлы .md и .markdown с MdLight»**. Программа
@@ -54,6 +57,17 @@ $iscc = "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
 ссылки, маркированные и нумерованные списки, списки задач, цитаты, таблицы,
 горизонтальные линии и fenced code blocks. HTML намеренно показывается как
 обычный текст — так локальные документы безопаснее открывать.
+
+## Безопасность и подпись кода
+
+- [Политика подписи кода](SIGNING_POLICY.md)
+- [Политика конфиденциальности](PRIVACY.md)
+- [Сообщить об уязвимости](SECURITY.md)
+- [Сторонние компоненты](THIRD-PARTY-NOTICES.md)
+
+Free code signing provided by [SignPath.io](https://signpath.io/), certificate
+by [SignPath Foundation](https://signpath.org/). Подписанные релизы будут
+создаваться только из исходного кода этого репозитория на GitHub-hosted runners.
 
 ## Лицензия
 
