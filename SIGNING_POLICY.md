@@ -27,7 +27,12 @@ require an Authenticode signature.
    trusted-build-system integration with origin verification enabled.
 4. SignPath verifies the artifact origin, applies the approved signing policy,
    signs the configured executables, and returns a signed artifact.
-5. Only the signed artifact is attached to a public GitHub release.
+5. After SignPath Foundation onboarding, only the signed artifact is attached
+   to a public GitHub release.
+
+An initial pre-release may be explicitly labeled as unsigned when SignPath
+Foundation needs an already released artifact to evaluate the project. Such an
+artifact is an onboarding candidate only and is never represented as signed.
 
 Signing credentials and private keys are never stored in this repository or
 made available to the build process.
