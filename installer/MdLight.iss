@@ -29,6 +29,7 @@ ChangesAssociations=yes
 CloseApplications=yes
 RestartApplications=no
 SetupLogging=yes
+SetupIconFile=..\assets\MdLight.ico
 
 [Languages]
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"

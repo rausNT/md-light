@@ -11,6 +11,7 @@
     <Description>Lightweight Markdown viewer for Windows.</Description>
     <Product>MdLight</Product>
     <Copyright>Copyright © 2026 rausNT</Copyright>
+    <ApplicationIcon>..\..\assets\MdLight.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
