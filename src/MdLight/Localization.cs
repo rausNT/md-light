@@ -107,44 +107,65 @@ namespace MdLight
                 ["en"] = EditorStrings("New", "Save", "Save as…", "Edit", "Preview",
                     "Save changes to this document?", "Unsaved changes", "Could not save file",
                     "Save Markdown", "Untitled", "Saved", "Modified", "The file changed outside MdLight.",
-                    "Ctrl+N — new  ·  Ctrl+S — save  ·  Ctrl+E — edit/preview"),
+                    "Ctrl+N — new  ·  Ctrl+S — save  ·  Ctrl+Shift+E — edit/preview"),
                 ["ru"] = EditorStrings("Создать", "Сохранить", "Сохранить как…", "Правка", "Просмотр",
                     "Сохранить изменения в документе?", "Несохранённые изменения", "Не удалось сохранить файл",
                     "Сохранить Markdown", "Без имени", "Сохранено", "Изменено", "Файл изменён вне MdLight.",
-                    "Ctrl+N — создать  ·  Ctrl+S — сохранить  ·  Ctrl+E — правка/просмотр"),
+                    "Ctrl+N — создать  ·  Ctrl+S — сохранить  ·  Ctrl+Shift+E — правка/просмотр"),
                 ["de"] = EditorStrings("Neu", "Speichern", "Speichern unter…", "Bearbeiten", "Vorschau",
                     "Änderungen an diesem Dokument speichern?", "Nicht gespeicherte Änderungen", "Datei konnte nicht gespeichert werden",
                     "Markdown speichern", "Unbenannt", "Gespeichert", "Geändert", "Die Datei wurde außerhalb von MdLight geändert.",
-                    "Strg+N — neu  ·  Strg+S — speichern  ·  Strg+E — Bearbeiten/Vorschau"),
+                    "Strg+N — neu  ·  Strg+S — speichern  ·  Strg+Umschalt+E — Bearbeiten/Vorschau"),
                 ["fr"] = EditorStrings("Nouveau", "Enregistrer", "Enregistrer sous…", "Modifier", "Aperçu",
                     "Enregistrer les modifications de ce document ?", "Modifications non enregistrées", "Impossible d’enregistrer le fichier",
                     "Enregistrer le Markdown", "Sans titre", "Enregistré", "Modifié", "Le fichier a été modifié en dehors de MdLight.",
-                    "Ctrl+N — nouveau  ·  Ctrl+S — enregistrer  ·  Ctrl+E — modifier/aperçu"),
+                    "Ctrl+N — nouveau  ·  Ctrl+S — enregistrer  ·  Ctrl+Maj+E — modifier/aperçu"),
                 ["es"] = EditorStrings("Nuevo", "Guardar", "Guardar como…", "Editar", "Vista previa",
                     "¿Guardar los cambios de este documento?", "Cambios sin guardar", "No se pudo guardar el archivo",
                     "Guardar Markdown", "Sin título", "Guardado", "Modificado", "El archivo cambió fuera de MdLight.",
-                    "Ctrl+N — nuevo  ·  Ctrl+S — guardar  ·  Ctrl+E — editar/vista previa"),
+                    "Ctrl+N — nuevo  ·  Ctrl+S — guardar  ·  Ctrl+Mayús+E — editar/vista previa"),
                 ["it"] = EditorStrings("Nuovo", "Salva", "Salva con nome…", "Modifica", "Anteprima",
                     "Salvare le modifiche al documento?", "Modifiche non salvate", "Impossibile salvare il file",
                     "Salva Markdown", "Senza titolo", "Salvato", "Modificato", "Il file è stato modificato fuori da MdLight.",
-                    "Ctrl+N — nuovo  ·  Ctrl+S — salva  ·  Ctrl+E — modifica/anteprima"),
+                    "Ctrl+N — nuovo  ·  Ctrl+S — salva  ·  Ctrl+Maiusc+E — modifica/anteprima"),
                 ["pt-BR"] = EditorStrings("Novo", "Salvar", "Salvar como…", "Editar", "Visualizar",
                     "Salvar as alterações deste documento?", "Alterações não salvas", "Não foi possível salvar o arquivo",
                     "Salvar Markdown", "Sem título", "Salvo", "Modificado", "O arquivo foi alterado fora do MdLight.",
-                    "Ctrl+N — novo  ·  Ctrl+S — salvar  ·  Ctrl+E — editar/visualizar"),
+                    "Ctrl+N — novo  ·  Ctrl+S — salvar  ·  Ctrl+Shift+E — editar/visualizar"),
                 ["zh-CN"] = EditorStrings("新建", "保存", "另存为…", "编辑", "预览",
                     "是否保存对此文档的更改？", "未保存的更改", "无法保存文件",
                     "保存 Markdown", "无标题", "已保存", "已修改", "文件已在 MdLight 外部更改。",
-                    "Ctrl+N — 新建  ·  Ctrl+S — 保存  ·  Ctrl+E — 编辑/预览"),
+                    "Ctrl+N — 新建  ·  Ctrl+S — 保存  ·  Ctrl+Shift+E — 编辑/预览"),
                 ["ja"] = EditorStrings("新規", "保存", "名前を付けて保存…", "編集", "プレビュー",
                     "このドキュメントへの変更を保存しますか？", "未保存の変更", "ファイルを保存できませんでした",
                     "Markdown を保存", "無題", "保存済み", "変更あり", "ファイルが MdLight の外部で変更されました。",
-                    "Ctrl+N — 新規  ·  Ctrl+S — 保存  ·  Ctrl+E — 編集/プレビュー"),
+                    "Ctrl+N — 新規  ·  Ctrl+S — 保存  ·  Ctrl+Shift+E — 編集/プレビュー"),
                 ["ko"] = EditorStrings("새로 만들기", "저장", "다른 이름으로 저장…", "편집", "미리 보기",
                     "이 문서의 변경 내용을 저장하시겠습니까?", "저장되지 않은 변경 내용", "파일을 저장할 수 없습니다",
                     "Markdown 저장", "제목 없음", "저장됨", "수정됨", "파일이 MdLight 외부에서 변경되었습니다.",
-                    "Ctrl+N — 새로 만들기  ·  Ctrl+S — 저장  ·  Ctrl+E — 편집/미리 보기")
+                    "Ctrl+N — 새로 만들기  ·  Ctrl+S — 저장  ·  Ctrl+Shift+E — 편집/미리 보기")
             };
+
+        private static readonly Dictionary<string, string[]> VisualEditorTranslations =
+            new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["en"] = new[] { "Bold", "Italic", "Heading 1", "Heading 2", "Normal text", "Align left", "Center", "Align right", "Bulleted list", "Numbered list", "Insert 3×3 table", "Header", "Cell" },
+                ["ru"] = new[] { "Жирный", "Курсив", "Заголовок 1", "Заголовок 2", "Обычный текст", "По левому краю", "По центру", "По правому краю", "Маркированный список", "Нумерованный список", "Вставить таблицу 3×3", "Заголовок", "Ячейка" },
+                ["de"] = new[] { "Fett", "Kursiv", "Überschrift 1", "Überschrift 2", "Normaler Text", "Linksbündig", "Zentriert", "Rechtsbündig", "Aufzählung", "Nummerierte Liste", "3×3-Tabelle einfügen", "Kopfzeile", "Zelle" },
+                ["fr"] = new[] { "Gras", "Italique", "Titre 1", "Titre 2", "Texte normal", "Aligner à gauche", "Centrer", "Aligner à droite", "Liste à puces", "Liste numérotée", "Insérer un tableau 3×3", "En-tête", "Cellule" },
+                ["es"] = new[] { "Negrita", "Cursiva", "Título 1", "Título 2", "Texto normal", "Alinear a la izquierda", "Centrar", "Alinear a la derecha", "Lista con viñetas", "Lista numerada", "Insertar tabla 3×3", "Encabezado", "Celda" },
+                ["it"] = new[] { "Grassetto", "Corsivo", "Titolo 1", "Titolo 2", "Testo normale", "Allinea a sinistra", "Centra", "Allinea a destra", "Elenco puntato", "Elenco numerato", "Inserisci tabella 3×3", "Intestazione", "Cella" },
+                ["pt-BR"] = new[] { "Negrito", "Itálico", "Título 1", "Título 2", "Texto normal", "Alinhar à esquerda", "Centralizar", "Alinhar à direita", "Lista com marcadores", "Lista numerada", "Inserir tabela 3×3", "Cabeçalho", "Célula" },
+                ["zh-CN"] = new[] { "粗体", "斜体", "标题 1", "标题 2", "普通文本", "左对齐", "居中", "右对齐", "项目符号列表", "编号列表", "插入 3×3 表格", "标题", "单元格" },
+                ["ja"] = new[] { "太字", "斜体", "見出し 1", "見出し 2", "標準テキスト", "左揃え", "中央揃え", "右揃え", "箇条書き", "番号付きリスト", "3×3 表を挿入", "見出し", "セル" },
+                ["ko"] = new[] { "굵게", "기울임꼴", "제목 1", "제목 2", "일반 텍스트", "왼쪽 맞춤", "가운데 맞춤", "오른쪽 맞춤", "글머리 기호 목록", "번호 매기기 목록", "3×3 표 삽입", "머리글", "셀" }
+            };
+
+        private static readonly string[] VisualEditorKeys =
+        {
+            "Bold", "Italic", "Heading1", "Heading2", "NormalText", "AlignLeft", "AlignCenter",
+            "AlignRight", "BulletedList", "NumberedList", "InsertTable", "TableHeader", "TableCell"
+        };
 
         private static string currentLanguage = "en";
 
@@ -155,6 +176,9 @@ namespace MdLight
         public static string Get(string key)
         {
             string value;
+            var visualIndex = Array.IndexOf(VisualEditorKeys, key);
+            if (visualIndex >= 0)
+                return VisualEditorTranslations[currentLanguage][visualIndex];
             if (EditorTranslations[currentLanguage].TryGetValue(key, out value))
                 return value;
             if (Translations[currentLanguage].TryGetValue(key, out value))
@@ -182,7 +206,7 @@ namespace MdLight
 
         public static void Validate()
         {
-            if (Translations.Count != 10 || EditorTranslations.Count != 10 || !Translations.ContainsKey("en"))
+            if (Translations.Count != 10 || EditorTranslations.Count != 10 || VisualEditorTranslations.Count != 10 || !Translations.ContainsKey("en"))
                 throw new InvalidOperationException("Unexpected set of supported languages.");
             var expected = Translations["en"].Keys.OrderBy(key => key).ToArray();
             var expectedEditor = EditorTranslations["en"].Keys.OrderBy(key => key).ToArray();
@@ -194,6 +218,8 @@ namespace MdLight
                 var actualEditor = EditorTranslations[language.Key].Keys.OrderBy(key => key).ToArray();
                 if (!expectedEditor.SequenceEqual(actualEditor))
                     throw new InvalidOperationException("Incomplete editor localization: " + language.Key);
+                if (VisualEditorTranslations[language.Key].Length != VisualEditorKeys.Length)
+                    throw new InvalidOperationException("Incomplete visual editor localization: " + language.Key);
             }
         }
 

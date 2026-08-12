@@ -16,6 +16,7 @@ namespace MdLight
         private static readonly Regex OrderedItem = new Regex(@"^\s{0,3}\d+[.)]\s+(.+)$", RegexOptions.Compiled);
         private static readonly Regex Divider = new Regex(@"^\s{0,3}((\*\s*){3,}|(-\s*){3,}|(_\s*){3,})$", RegexOptions.Compiled);
         private static readonly Regex TableDivider = new Regex(@"^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$", RegexOptions.Compiled);
+        private static readonly Regex AlignedParagraph = new Regex(@"^\s*<p\s+align=[\""']?(center|right)[\""']?\s*>(.*?)</p>\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public static FlowDocument Render(string markdown, Action<string> openLink, bool dark)
         {
@@ -46,6 +47,22 @@ namespace MdLight
                     continue;
                 }
 
+                var aligned = AlignedParagraph.Match(line);
+                if (aligned.Success)
+                {
+                    var paragraph = new Paragraph
+                    {
+                        Margin = new Thickness(0, 2, 0, 13),
+                        TextAlignment = string.Equals(aligned.Groups[1].Value, "center", StringComparison.OrdinalIgnoreCase)
+                            ? TextAlignment.Center
+                            : TextAlignment.Right
+                    };
+                    AddInlines(paragraph.Inlines, aligned.Groups[2].Value, openLink, foreground, accent, codeBackground);
+                    document.Blocks.Add(paragraph);
+                    index++;
+                    continue;
+                }
+
                 if (line.TrimStart().StartsWith("```", StringComparison.Ordinal) ||
                     line.TrimStart().StartsWith("~~~", StringComparison.Ordinal))
                 {
@@ -62,6 +79,7 @@ namespace MdLight
 
                     var codeBlock = new Paragraph(new Run(code.ToString()))
                     {
+                        Tag = "code:" + language,
                         FontFamily = new FontFamily("Consolas"),
                         FontSize = 13,
                         LineHeight = 20,
@@ -82,6 +100,7 @@ namespace MdLight
                     var sizes = new[] { 30d, 25d, 21d, 18d, 16d, 15d };
                     var paragraph = new Paragraph
                     {
+                        Tag = "heading:" + level,
                         FontSize = sizes[level - 1],
                         FontWeight = level <= 3 ? FontWeights.SemiBold : FontWeights.Bold,
                         Foreground = level == 1 ? accent : foreground,
@@ -98,6 +117,7 @@ namespace MdLight
                 {
                     document.Blocks.Add(new Paragraph(new Run("────────────────────────────────────────"))
                     {
+                        Tag = "divider",
                         Foreground = muted,
                         FontSize = 11,
                         Margin = new Thickness(0, 8, 0, 12)
@@ -118,6 +138,7 @@ namespace MdLight
                     }
                     var quote = new Paragraph
                     {
+                        Tag = "quote",
                         Background = quoteBackground,
                         BorderBrush = accent,
                         BorderThickness = new Thickness(4, 0, 0, 0),
@@ -161,10 +182,11 @@ namespace MdLight
                 if (index + 1 < lines.Length && lines[index].Contains("|") && TableDivider.IsMatch(lines[index + 1]))
                 {
                     var rows = new List<string[]> { SplitTableRow(lines[index]) };
+                    var alignments = SplitTableRow(lines[index + 1]).Select(ParseTableAlignment).ToArray();
                     index += 2;
                     while (index < lines.Length && lines[index].Contains("|") && !string.IsNullOrWhiteSpace(lines[index]))
                         rows.Add(SplitTableRow(lines[index++]));
-                    document.Blocks.Add(CreateTable(rows, openLink, foreground, accent, codeBackground, quoteBackground, muted));
+                    document.Blocks.Add(CreateTable(rows, alignments, openLink, foreground, accent, codeBackground, quoteBackground, muted));
                     continue;
                 }
 
@@ -196,7 +218,7 @@ namespace MdLight
                    (index + 1 < lines.Length && line.Contains("|") && TableDivider.IsMatch(lines[index + 1]));
         }
 
-        private static System.Windows.Documents.Table CreateTable(List<string[]> rows, Action<string> openLink,
+        private static System.Windows.Documents.Table CreateTable(List<string[]> rows, TextAlignment[] alignments, Action<string> openLink,
             Brush foreground, Brush accent, Brush codeBackground, Brush headerBackground, Brush border)
         {
             var table = new System.Windows.Documents.Table
@@ -220,6 +242,8 @@ namespace MdLight
                 for (var column = 0; column < columns; column++)
                 {
                     var paragraph = new Paragraph { Margin = new Thickness(0) };
+                    if (column < alignments.Length)
+                        paragraph.TextAlignment = alignments[column];
                     AddInlines(paragraph.Inlines, column < rows[rowIndex].Length ? rows[rowIndex][column] : string.Empty,
                         openLink, foreground, accent, codeBackground);
                     if (rowIndex == 0) paragraph.FontWeight = FontWeights.SemiBold;
@@ -240,6 +264,16 @@ namespace MdLight
             if (line.StartsWith("|", StringComparison.Ordinal)) line = line.Substring(1);
             if (line.EndsWith("|", StringComparison.Ordinal)) line = line.Substring(0, line.Length - 1);
             return Regex.Split(line, @"(?<!\\)\|").Select(cell => cell.Trim().Replace("\\|", "|")).ToArray();
+        }
+
+        private static TextAlignment ParseTableAlignment(string separator)
+        {
+            separator = separator.Trim();
+            if (separator.StartsWith(":", StringComparison.Ordinal) && separator.EndsWith(":", StringComparison.Ordinal))
+                return TextAlignment.Center;
+            if (separator.EndsWith(":", StringComparison.Ordinal))
+                return TextAlignment.Right;
+            return TextAlignment.Left;
         }
 
         private static void AddMultilineInlines(InlineCollection target, string text, Action<string> openLink,
@@ -273,6 +307,7 @@ namespace MdLight
                     {
                         target.Add(new Run(text.Substring(position + 1, end - position - 1))
                         {
+                            Tag = "inline-code",
                             FontFamily = new FontFamily("Consolas"),
                             FontSize = 13,
                             Background = codeBackground,
@@ -324,6 +359,7 @@ namespace MdLight
                             var destination = text.Substring(labelEnd + 2, targetEnd - labelEnd - 2).Trim().Trim('<', '>');
                             var link = new Hyperlink(new Run(image ? Localization.Get("Image") + ": " + label : label))
                             {
+                                Tag = image ? "image:" + label : "link",
                                 Foreground = accent,
                                 TextDecorations = image ? null : TextDecorations.Underline,
                                 ToolTip = destination,

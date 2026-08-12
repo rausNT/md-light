@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace MdLight
 {
@@ -20,10 +21,20 @@ namespace MdLight
                     foreach (var language in Localization.Languages)
                     {
                         Localization.SetLanguage(language.Code, false);
-                        var sample = "# Title\n\n- one\n- [x] two\n\n> quote\n\n![image](test.png)\n\n```cs\nvar ok = true;\n```";
+                        var sample = "# Title\n\n**bold** and *italic*\n\n- one\n- [x] two\n\n> quote\n\n| Header | Value |\n| :--- | ---: |\n| one | two |\n\n<p align=\"center\">Centered</p>\n\n![image](test.png)\n\n```cs\nvar ok = true;\n```";
                         var document = MarkdownRenderer.Render(sample, delegate { }, false);
                         if (document.Blocks.Count < 5)
                             throw new InvalidOperationException("Markdown smoke test produced too few blocks for " + language.Code + ".");
+                        var roundTrip = MarkdownSerializer.Serialize(document);
+                        foreach (var expected in new[] { "# Title", "**bold**", "*italic*", "- [x] two", "| Header | Value |", "| :--- | ---: |", "<p align=\"center\">Centered</p>", "![image](test.png)", "```cs" })
+                        {
+                            if (!roundTrip.Contains(expected))
+                                throw new InvalidOperationException("Visual editor round-trip lost " + expected + " for " + language.Code + ".");
+                        }
+                        var formattedRun = new Run("visual") { FontWeight = FontWeights.Bold, FontStyle = FontStyles.Italic };
+                        var formattedDocument = new FlowDocument(new Paragraph(formattedRun));
+                        if (!MarkdownSerializer.Serialize(formattedDocument).Contains("***visual***"))
+                            throw new InvalidOperationException("Visual bold/italic formatting was not serialized.");
                     }
 
                     var smokePath = Path.Combine(Path.GetTempPath(), "MdLight-smoke-" + Guid.NewGuid().ToString("N") + ".md");

@@ -17,19 +17,24 @@ versions.
 ## Features
 
 - Open files with a button, drag and drop, or a command-line path.
-- Create and edit Markdown with Preview/Edit modes, Save, and Save As.
+- Edit visually with Bold, Italic, headings, paragraph alignment, lists, and
+  editable tables; switch to Preview before saving if desired.
 - Render headings, lists and tasks, quotes, tables, links, emphasis, and code.
 - Refresh the open document automatically after it is saved.
 - Preview raw Markdown in the Windows File Explorer Preview pane.
 - Use a light or dark theme.
 - Choose from English, Russian, German, French, Spanish, Italian, Brazilian
   Portuguese, Simplified Chinese, Japanese, and Korean.
-- Use `Ctrl+N` to create, `Ctrl+O` to open, `Ctrl+S` to save, `Ctrl+E` to
-  switch between editing and preview, and `Ctrl+R` or `F5` to refresh.
+- Use `Ctrl+N` to create, `Ctrl+O` to open, `Ctrl+S` to save, switch between
+  editing and preview with `Ctrl+Shift+E`, and use `Ctrl+E` to
+  center a paragraph while editing.
 - Make no network requests and require no runtime beyond Windows components.
 
 English is used on the first launch. A language selected in the toolbar is
 saved for subsequent launches, with English serving as the fallback.
+
+Visual editing uses the native WPF rich-text engine—there is still no browser,
+Electron, WebView, or background service involved.
 
 ## Download
 
@@ -75,6 +80,11 @@ Headings, paragraphs, **bold**, *italic*, ~~strikethrough~~, `inline code`,
 links, ordered and unordered lists, task lists, quotes, tables, horizontal
 rules, and fenced code blocks are supported. HTML is intentionally displayed
 as plain text to make local documents safer to open.
+
+The visual editor saves standard Markdown for emphasis, headings, lists, and
+GFM tables. Because Markdown has no standard paragraph-alignment syntax,
+centered and right-aligned paragraphs are saved as restricted `<p align>` HTML
+and are rendered visually by MdLight. Other embedded HTML remains plain text.
 
 ## Security and code signing
 
