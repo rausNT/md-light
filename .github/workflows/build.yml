@@ -55,10 +55,27 @@ jobs:
           if ($smoke.ExitCode -ne 0) { throw "Installed app smoke test failed" }
           $key = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Software\Classes\.md')
           $association = $key.GetValue('')
+          $contentType = $key.GetValue('Content Type')
+          $perceivedType = $key.GetValue('PerceivedType')
           $key.Dispose()
           if ($association -ne 'MdLight.Markdown') { throw "File association was not registered" }
+          if ($contentType -ne 'text/markdown') { throw "Markdown content type was not registered" }
+          if ($perceivedType -ne 'text') { throw "Markdown perceived type was not registered" }
+          $previewCategory = '{8895B1C6-B41F-4C1C-A562-0D564250836F}'
+          $textPreviewHandler = '{1531D583-8375-4D3F-B5FB-D23BBD169F22}'
+          foreach ($extension in '.md', '.markdown') {
+            $previewKey = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey("Software\Classes\$extension\shellex\$previewCategory")
+            if (-not $previewKey) { throw "Preview handler was not registered for $extension" }
+            $previewHandler = $previewKey.GetValue('')
+            $previewKey.Dispose()
+            if ($previewHandler -ne $textPreviewHandler) { throw "Unexpected preview handler for $extension" }
+          }
           $uninstall = Start-Process -FilePath "$env:LOCALAPPDATA\Programs\MdLight\unins000.exe" -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART' -Wait -PassThru
           if ($uninstall.ExitCode -ne 0) { throw "Uninstaller exited with code $($uninstall.ExitCode)" }
+          foreach ($extension in '.md', '.markdown') {
+            $previewPath = "Software\Classes\$extension\shellex\$previewCategory"
+            if ([Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($previewPath)) { throw "Preview handler registration remains after uninstall for $extension" }
+          }
 
       - name: Upload
         uses: actions/upload-artifact@v7

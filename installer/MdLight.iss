@@ -2,6 +2,8 @@
 #define MyAppVersion "0.2.0"
 #define MyAppPublisher "rausNT"
 #define MyAppExeName "MdLight.exe"
+#define PreviewHandlerCategoryGuid "8895B1C6-B41F-4C1C-A562-0D564250836F"
+#define WindowsTextPreviewHandlerGuid "1531D583-8375-4D3F-B5FB-D23BBD169F22"
 
 [Setup]
 AppId={{6ACB4591-C0C9-4784-BA74-04E37D67261A}
@@ -53,6 +55,17 @@ Root: HKCU; Subkey: "Software\Classes\MdLight.Markdown"; ValueType: string; Valu
 Root: HKCU; Subkey: "Software\Classes\MdLight.Markdown"; ValueType: string; ValueName: "FriendlyTypeName"; ValueData: "Документ Markdown"
 Root: HKCU; Subkey: "Software\Classes\MdLight.Markdown\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
 Root: HKCU; Subkey: "Software\Classes\MdLight.Markdown\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+; Explorer's Preview pane uses a Shell Preview Handler, independently of the
+; default application. Markdown is text, so reuse Windows' built-in TXT
+; previewer instead of installing an additional in-process COM component.
+Root: HKCU; Subkey: "Software\Classes\MdLight.Markdown\shellex\{{{#PreviewHandlerCategoryGuid}}"; ValueType: string; ValueName: ""; ValueData: "{{{#WindowsTextPreviewHandlerGuid}}"
+; Do not replace a preview handler already chosen by the user or another app.
+Root: HKCU; Subkey: "Software\Classes\.md\shellex\{{{#PreviewHandlerCategoryGuid}}"; ValueType: string; ValueName: ""; ValueData: "{{{#WindowsTextPreviewHandlerGuid}}"; Flags: uninsdeletekey; Check: PreviewHandlerIsMissing('.md')
+Root: HKCU; Subkey: "Software\Classes\.markdown\shellex\{{{#PreviewHandlerCategoryGuid}}"; ValueType: string; ValueName: ""; ValueData: "{{{#WindowsTextPreviewHandlerGuid}}"; Flags: uninsdeletekey; Check: PreviewHandlerIsMissing('.markdown')
+Root: HKCU; Subkey: "Software\Classes\.md"; ValueType: string; ValueName: "Content Type"; ValueData: "text/markdown"; Flags: uninsdeletevalue; Check: ExtensionValueIsMissing('.md', 'Content Type')
+Root: HKCU; Subkey: "Software\Classes\.md"; ValueType: string; ValueName: "PerceivedType"; ValueData: "text"; Flags: uninsdeletevalue; Check: ExtensionValueIsMissing('.md', 'PerceivedType')
+Root: HKCU; Subkey: "Software\Classes\.markdown"; ValueType: string; ValueName: "Content Type"; ValueData: "text/markdown"; Flags: uninsdeletevalue; Check: ExtensionValueIsMissing('.markdown', 'Content Type')
+Root: HKCU; Subkey: "Software\Classes\.markdown"; ValueType: string; ValueName: "PerceivedType"; ValueData: "text"; Flags: uninsdeletevalue; Check: ExtensionValueIsMissing('.markdown', 'PerceivedType')
 
 Root: HKCU; Subkey: "Software\Classes\.md\OpenWithProgids"; ValueType: none; ValueName: "MdLight.Markdown"; Flags: uninsdeletevalue
 Root: HKCU; Subkey: "Software\Classes\.markdown\OpenWithProgids"; ValueType: none; ValueName: "MdLight.Markdown"; Flags: uninsdeletevalue
@@ -71,3 +84,15 @@ Root: HKCU; Subkey: "Software\Classes\.markdown"; ValueType: string; ValueName: 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Запустить MdLight"; Flags: nowait postinstall skipifsilent
 Filename: "ms-settings:defaultapps?registeredAppUser=MdLight"; Description: "Подтвердить MdLight для файлов Markdown в настройках Windows"; Flags: shellexec nowait postinstall skipifsilent; Tasks: associate_md
+
+[Code]
+function ExtensionValueIsMissing(const Extension, ValueName: String): Boolean;
+begin
+  Result := not RegValueExists(HKCR, Extension, ValueName);
+end;
+
+function PreviewHandlerIsMissing(const Extension: String): Boolean;
+begin
+  Result := ExtensionValueIsMissing(
+    Extension + '\shellex\{' + '{#PreviewHandlerCategoryGuid}' + '}', '');
+end;

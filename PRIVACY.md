@@ -31,8 +31,11 @@ operating it.
 
 The installer copies application files to the selected local directory and can
 register MdLight as a handler for `.md` and `.markdown` files. These settings
-remain on the user's computer and can be removed by uninstalling the program or
-changing Windows Default Apps settings.
+also connect those extensions to Windows' built-in text preview handler so that
+the Explorer Preview pane can read the selected local file. Previewing is done
+locally by Windows; MdLight is not launched and no data is transmitted. The
+settings remain on the user's computer and can be removed by uninstalling the
+program or changing Windows Default Apps settings.
 
 ## Contact
 
