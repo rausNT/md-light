@@ -182,7 +182,7 @@ namespace MdLight
             }
 
             if (document.Blocks.Count == 0)
-                document.Blocks.Add(new Paragraph(new Run("Пустой документ")) { Foreground = muted });
+                document.Blocks.Add(new Paragraph(new Run(Localization.Get("EmptyDocument"))) { Foreground = muted });
             return document;
         }
 
@@ -322,7 +322,7 @@ namespace MdLight
                         {
                             var label = text.Substring(labelStart, labelEnd - labelStart);
                             var destination = text.Substring(labelEnd + 2, targetEnd - labelEnd - 2).Trim().Trim('<', '>');
-                            var link = new Hyperlink(new Run(image ? "Изображение: " + label : label))
+                            var link = new Hyperlink(new Run(image ? Localization.Get("Image") + ": " + label : label))
                             {
                                 Foreground = accent,
                                 TextDecorations = image ? null : TextDecorations.Underline,

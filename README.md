@@ -1,80 +1,92 @@
 # MdLight
 
+[English](README.md) | [Русский](README.ru.md)
+
+<img src="assets/MdLight-icon.png" alt="MdLight icon" width="96">
+
 [![Build Windows app](https://github.com/rausNT/md-light/actions/workflows/build.yml/badge.svg)](https://github.com/rausNT/md-light/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**Лёгкий бесплатный просмотрщик Markdown (`.md`) для Windows 10 и 11.**
+**A lightweight, free Markdown (`.md`) viewer and editor for Windows 10 and 11.**
 
-MdLight открывает Markdown-файлы без браузера, Electron, WebView и платных
-компонентов. Это небольшое WPF-приложение, которому достаточно уже встроенного
-в Windows .NET Framework 4.8.
+MdLight opens Markdown files without a browser, Electron, WebView, paid
+components, or an additional runtime download. It is a small WPF application
+built for the .NET Framework 4.8 already included with supported Windows
+versions.
 
-## Возможности
+## Features
 
-- открытие файла кнопкой, перетаскиванием или передачей пути в командной строке;
-- заголовки, списки и задачи, цитаты, таблицы, ссылки, выделение и блоки кода;
-- автоматическое обновление открытого документа после сохранения;
-- предварительный просмотр исходного Markdown в панели Проводника Windows;
-- светлая и тёмная темы;
-- горячие клавиши: `Ctrl+O` — открыть, `Ctrl+R` или `F5` — обновить;
-- никаких сетевых запросов и runtime-зависимостей сверх компонентов Windows.
+- Open files with a button, drag and drop, or a command-line path.
+- Create and edit Markdown with Preview/Edit modes, Save, and Save As.
+- Render headings, lists and tasks, quotes, tables, links, emphasis, and code.
+- Refresh the open document automatically after it is saved.
+- Preview raw Markdown in the Windows File Explorer Preview pane.
+- Use a light or dark theme.
+- Choose from English, Russian, German, French, Spanish, Italian, Brazilian
+  Portuguese, Simplified Chinese, Japanese, and Korean.
+- Use `Ctrl+N` to create, `Ctrl+O` to open, `Ctrl+S` to save, `Ctrl+E` to
+  switch between editing and preview, and `Ctrl+R` or `F5` to refresh.
+- Make no network requests and require no runtime beyond Windows components.
 
-## Скачать
+English is used on the first launch. A language selected in the toolbar is
+saved for subsequent launches, with English serving as the fallback.
 
-Готовые `MdLight-Setup.exe` и `MdLight-portable.zip` публикуются в разделе
-[Releases](https://github.com/rausNT/md-light/releases). Проверочные сборки для
-каждого изменения доступны в [GitHub Actions](https://github.com/rausNT/md-light/actions).
+## Download
 
-Запустите `MdLight-Setup.exe`. На странице дополнительных задач можно оставить
-включённым пункт **«Ассоциировать файлы .md и .markdown с MdLight»**. Программа
-будет зарегистрирована в Windows как обработчик Markdown; если для расширения
-уже защищён системный выбор, установщик откроет страницу «Приложения по
-умолчанию», где достаточно подтвердить MdLight.
+Ready-to-use `MdLight-Setup.exe` and `MdLight-portable.zip` packages are
+published under [Releases](https://github.com/rausNT/md-light/releases).
+Validation builds for every change are available in
+[GitHub Actions](https://github.com/rausNT/md-light/actions).
 
-`MdLight-portable.zip` — версия без установки. После распаковки запустите
-`MdLight.exe`; ассоциацию для portable-версии можно задать через
-**Открыть с помощью → Выбрать другое приложение**.
+Run `MdLight-Setup.exe`. On the Additional Tasks page, leave
+**Associate .md and .markdown files with MdLight** enabled if you want MdLight
+registered as a Markdown handler. If Windows already protects a different
+default choice, Setup opens Default Apps so you can confirm MdLight.
 
-Установщик также подключает к `.md` и `.markdown` встроенный текстовый обработчик
-предварительного просмотра Windows. Поэтому при включённой панели просмотра
-Проводника (`Alt+P`) справа отображается исходный текст Markdown. Иногда после
-первой установки требуется закрыть и снова открыть окно Проводника.
+`MdLight-portable.zip` requires no installation. Extract it and run
+`MdLight.exe`; use **Open with → Choose another app** to associate the portable
+version manually.
 
-## Сборка
+Setup also connects `.md` and `.markdown` to the built-in Windows text Preview
+Handler. When the File Explorer Preview pane is enabled (`Alt+P`), it displays
+the raw Markdown source. You may need to reopen the File Explorer window after
+the first installation.
 
-Требуется .NET SDK (только для разработки):
+## Build
+
+The .NET SDK is required only for development:
 
 ```powershell
 dotnet restore MdLight.sln
 dotnet build MdLight.sln -c Release --no-restore
 ```
 
-Готовое приложение находится в `src/MdLight/bin/Release/net48/`.
-Установщик собирается бесплатным [Inno Setup](https://jrsoftware.org/isinfo.php):
+The application is written to `src/MdLight/bin/Release/net48/`. Build the
+installer with the free [Inno Setup](https://jrsoftware.org/isinfo.php):
 
 ```powershell
 $iscc = "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
 & $iscc installer\MdLight.iss
 ```
 
-## Поддерживаемый Markdown
+## Supported Markdown
 
-Заголовки, абзацы, **жирный**, *курсив*, ~~зачёркнутый~~, `inline code`,
-ссылки, маркированные и нумерованные списки, списки задач, цитаты, таблицы,
-горизонтальные линии и fenced code blocks. HTML намеренно показывается как
-обычный текст — так локальные документы безопаснее открывать.
+Headings, paragraphs, **bold**, *italic*, ~~strikethrough~~, `inline code`,
+links, ordered and unordered lists, task lists, quotes, tables, horizontal
+rules, and fenced code blocks are supported. HTML is intentionally displayed
+as plain text to make local documents safer to open.
 
-## Безопасность и подпись кода
+## Security and code signing
 
-- [Политика подписи кода](SIGNING_POLICY.md)
-- [Политика конфиденциальности](PRIVACY.md)
-- [Сообщить об уязвимости](SECURITY.md)
-- [Сторонние компоненты](THIRD-PARTY-NOTICES.md)
+- [Code signing policy](SIGNING_POLICY.md)
+- [Privacy policy](PRIVACY.md)
+- [Report a vulnerability](SECURITY.md)
+- [Third-party notices](THIRD-PARTY-NOTICES.md)
 
 Free code signing provided by [SignPath.io](https://signpath.io/), certificate
-by [SignPath Foundation](https://signpath.org/). Подписанные релизы будут
-создаваться только из исходного кода этого репозитория на GitHub-hosted runners.
+by [SignPath Foundation](https://signpath.org/). Signed releases will be
+created only from this repository's source code on GitHub-hosted runners.
 
-## Лицензия
+## License
 
-[MIT](LICENSE) — можно свободно использовать, изменять и распространять.
+[MIT](LICENSE) — free to use, modify, and distribute.

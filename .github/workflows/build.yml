@@ -31,7 +31,7 @@ jobs:
           New-Item -ItemType Directory -Path dist -Force
           New-Item -ItemType Directory -Path portable -Force
           Copy-Item src/MdLight/bin/Release/net48/MdLight.exe portable/
-          Copy-Item README.md, LICENSE, sample.md portable/
+          Copy-Item README.md, README.ru.md, LICENSE, sample.md, sample.ru.md portable/
           Compress-Archive -Path portable/* -DestinationPath dist/MdLight-portable.zip
 
       - name: Build installer

@@ -9,6 +9,11 @@ Thank you for helping improve MdLight.
    `src\MdLight\bin\Release\net48\MdLight.exe --smoke-test`.
 4. Open a pull request describing the change and its validation.
 
+English is the canonical language for source documentation and GitHub-facing
+text. Keep `README.ru.md` aligned when changing user-facing README content.
+When adding or changing an application string, update every language in
+`src/MdLight/Localization.cs`; the smoke test rejects incomplete language sets.
+
 Changes from contributors who are not committers require maintainer review.
 Build scripts, release workflows, installer definitions, and signing policy
 files are reviewed with the same care as application code.

@@ -1,22 +1,22 @@
 # MdLight
 
-> Лёгкий просмотрщик Markdown для Windows.
+> A lightweight Markdown viewer for Windows.
 
-Откройте этот файл в **MdLight**, чтобы быстро проверить отображение.
+Open this file in **MdLight** to quickly check the rendering.
 
-## Что поддерживается
+## Supported content
 
-- обычные списки;
-- [x] выполненные задачи;
-- [ ] невыполненные задачи;
-- *курсив*, **жирный текст**, ~~зачёркивание~~ и `код`;
-- [ссылки](https://github.com/rausNT/md-light).
+- regular lists;
+- [x] completed tasks;
+- [ ] incomplete tasks;
+- *italic*, **bold**, ~~strikethrough~~, and `code`;
+- [links](https://github.com/rausNT/md-light).
 
-| Возможность | Статус |
-|:------------|:------:|
-| Заголовки   | Готово |
-| Таблицы     | Готово |
-| Тёмная тема | Готово |
+| Feature    | Status |
+|:-----------|:------:|
+| Headings   | Ready  |
+| Tables     | Ready  |
+| Dark theme | Ready  |
 
 ```csharp
 Console.WriteLine("Hello, Markdown!");
@@ -24,4 +24,4 @@ Console.WriteLine("Hello, Markdown!");
 
 ---
 
-Файл автоматически обновится после сохранения.
+The file refreshes automatically after it is saved.

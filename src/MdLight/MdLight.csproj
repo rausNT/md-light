@@ -6,9 +6,9 @@
     <AssemblyName>MdLight</AssemblyName>
     <RootNamespace>MdLight</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Authors>rausNT</Authors>
-    <Description>Lightweight Markdown viewer for Windows.</Description>
+    <Description>Lightweight Markdown viewer and editor for Windows.</Description>
     <Product>MdLight</Product>
     <Copyright>Copyright © 2026 rausNT</Copyright>
     <ApplicationIcon>..\..\assets\MdLight.ico</ApplicationIcon>
